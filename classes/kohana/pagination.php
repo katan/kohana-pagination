@@ -233,9 +233,24 @@ class Kohana_Pagination {
 					$this->query(array($this->config['current_page']['key'] => $page)));
 
 			case 'route':
-			
+                                                                                          /**
+                                                                                           * For correct routing if it used
+                                                                                           * @since v.3.2 
+                                                                                           */
+                                                                                          return URL::site(Route::get($this->config['current_page']['route_name'])
+                                                                                                  ->uri(array(
+                                                                                                        'controller'=>$this->request->controller(),
+                                                                                                        'action'=>  $this->request->action(),
+                                                                                                        $this->config['current_page']['key'] => $page)
+                                                                                                  ));
+                                                                                           /**
+                                                                                            * Don't run it with routing
+                                                                                            * @deprecated v.3.1
+                                                                                            * 
 				return URL::site($this->route->uri(array_merge($this->route_params, 
 					array($this->config['current_page']['key'] => $page))).$this->query());
+                                                                                             * 
+                                                                                             */
 		}
 
 		return '#';
